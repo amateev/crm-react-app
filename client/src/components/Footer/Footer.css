@@ -1,0 +1,17 @@
+.footer {
+  background-color: #282c34;
+  height: 100px;
+  position: relative;
+  color: white;
+  overflow: auto;
+  text-align: center;
+}
+
+.footer > .bottom {
+  position: absolute;
+  bottom: 5;
+  left: 0;
+  right: 0;
+  padding: 8px;
+}
+
