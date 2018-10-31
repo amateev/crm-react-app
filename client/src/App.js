@@ -14,13 +14,11 @@ class App extends Component {
     // this.deletePet = this.deletePet.bind(this);
   }
 
-  // deletePet() {
-  //   alert('hi');
-  // }
+ 
 
   deleteAgent = (event) => {
 
-    //in button below add a data attribute with the pet's id
+    //in button below add a data attribute with the agent's id
 
     var id = event.target.getAttribute('data-id');
 
@@ -32,7 +30,7 @@ class App extends Component {
             }
           }).then(res => res.json()).then(deletedAgentId => {
 
-            let agent = this.state.agent.filter(agent => agent._id !== deletedAgentId)
+            let agent = this.state.agent.filter(agent => agent.id !== deletedAgentId)
 
             this.setState({agent})
           })
@@ -85,7 +83,7 @@ class App extends Component {
 
           {this.state.agent.map((x) =>
             <p key={x._id}> 
-              {x.first_name} | {x.last_type} <button onClick={this.deleteAgent} data-id={x._id}>x</button>
+              {x.first_name} | {x.last_name} <button onClick={this.deleteAgent} data-id={x.id}>x</button>
             </p>
           )}
 
