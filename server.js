@@ -101,7 +101,7 @@ app.post('/agent', function(req, res){
 
 	//curl -d "name=fido&age=3" -X POST http://localhost:3001/pets
 
-	db.agent.insert(req.body, function(error, savedPet) {
+	db.agent.insert(req.body, function(error, savedAgent) {
 	  // Log any errors
 	  if (error) {
 	    res.send(error);
@@ -110,6 +110,48 @@ app.post('/agent', function(req, res){
 	  }
 	});
 });
+
+// add an agent
+//testing in terminal: curl -d "first_name=monicaa&last_name=levinskyy" -X POST http://localhost:3001/agent/update/5bda4ff0ffbefe0f7dcc0e3b
+// this way didn't work for me:
+// app.post('/agent/update/:id', function(req, res){
+// 	db.agent.update(
+// 	{"_id": mongojs.ObjectID(req.param.id)},
+// 	{first_name:req.body.first_name, last_name:req.body.last_name}, 
+
+// 		function(error, removed) {
+// 	  // Log any errors
+// 	  if (error) {
+// 	    res.send(error);
+// 	  }else {
+// 	    res.json(req.params.id);
+// 	  }
+// 	});
+// });
+
+//this way should return agent document:
+app.post('/agent/update/:id', function(req, res) {
+    //curl -X POST http://localhost:3001/agent/5bda4ff0ffbefe0f7dcc0e3b
+
+    db.agent.findAndModify({
+        query: {
+            "_id": mongojs.ObjectId(req.params.id)
+        },
+        update: {
+            $set: {
+                "first_name": req.body.first_name,
+                "last_name": req.body.last_name
+            }
+        },
+        new: true
+    }, function(err, editedAgent) {
+        res.json(editedAgent);
+    });
+});
+
+
+
+
 
 app.listen(PORT, function() {
   console.log('🌎 ==> Now listening on PORT %s! Visit http://localhost:%s in your browser!', PORT, PORT);
