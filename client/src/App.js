@@ -10,7 +10,8 @@ class App extends Component {
 
     this.state = {
       agent : [],
-      edit: false
+      edit: false,
+      edit_id: ""
       
     }
 
@@ -61,7 +62,29 @@ class App extends Component {
 
   editAgent = (event) => {
     event.preventDefault();
-    this.setState({edit:true})
+    // this.setState({edit:true})
+
+    // setting up the state:
+    let edit = true;
+    let edit_id = event.target.getAttribute('data-id');
+    let fname = event.target.getAttribute('data-fname');
+    let lname = event.target.getAttribute('data-lname');
+
+    // we need time for the form to show up, so we use 
+    // callback function that runs after the state is updated
+    this.setState({edit, edit_id}, function(){
+      let editForm = document.querySelector('#editForm');
+      
+      editForm.children[0].value = fname;
+      editForm.children[1].value = lname;
+      
+    });
+  }
+
+  // hiding an edit agent form by setting the edit state
+  hideEditAgent = (event) => {
+    event.preventDefault();
+    this.setState({edit:false})
   }
 
   componentDidMount() {
@@ -92,17 +115,18 @@ class App extends Component {
             <button>add an agent</button>
           </form>
 
-          {this.state.edit && <form>
+          {this.state.edit && <form id="editForm" onSubmit={this.updateAgent}>
             <input type="text" name="fname" placeholder="put in your name" />
             <input type="text" name="lname" placeholder="put in your last name" />
 
             <button>update an agent</button>
+            <button onClick={this.hideEditAgent} >hide edit form</button>
           </form>}
 
           {this.state.agent.map((x) =>
             <p key={x._id}> 
-              {x.first_name} | {x.last_name} <button onClick={this.deleteAgent} data-id={x.id}>x</button> 
-               | <button onClick={this.editAgent}>edit</button>
+              {x.first_name} | {x.last_name} <button onClick={this.deleteAgent} data-id={x._id}>x</button> 
+               | <button onClick={this.editAgent} data-id={x._id} data-fname={x.first_name} data-lname={x.last_name}>edit</button>
             </p>
           )}
           

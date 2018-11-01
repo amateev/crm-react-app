@@ -111,6 +111,22 @@ app.post('/agent', function(req, res){
 	});
 });
 
+// update agent
+app.post('/agent/update/:id', function(req, res){
+
+	//curl -d "first_name=Monicaa&last_name=livinskyys" -X POST http://localhost:3001/agent/update/5bda4ff0ffbefe0f7dcc0e3b
+
+	db.agent.update({
+	  "_id": mongojs.ObjectID(req.params.id)
+	}, {fname: req.body.first_name, lname: req.body.last_name} function(error, removed) {
+	  if (error) {
+	    res.send(error);
+	  }else {
+	    res.json(req.params.id);
+	  }
+	});
+})
+
 app.listen(PORT, function() {
   console.log('🌎 ==> Now listening on PORT %s! Visit http://localhost:%s in your browser!', PORT, PORT);
 });
