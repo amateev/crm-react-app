@@ -56,7 +56,7 @@ app.get('/agent', function(req, res){
 //'/agent/:id' is a url pattern
 
 // BOTH OF THEM TOGETHER IS a route
-
+// id of an agent
 app.get('/agent/:id', function(req, res){
 
 	db.agent.findOne({
@@ -65,7 +65,6 @@ app.get('/agent/:id', function(req, res){
 	    res.json(result);
 	});
 
-	// select * from agent;
 })
 
 /*
@@ -80,7 +79,7 @@ app.get('/agent/:id', function(req, res){
 
 	in node.js you can use the request package to do post request 
 */
-
+// remove an agent
 app.post('/agent/:id', function(req, res){
 	//curl -X POST http://localhost:3001/pets/5bb2de27c385cb3290b0e598
 
@@ -95,6 +94,7 @@ app.post('/agent/:id', function(req, res){
 	});
 });
 
+// add an agent
 app.post('/agent', function(req, res){
 	
 	// req.body may look like this: {name: 'fido', age: 3} 
@@ -110,22 +110,6 @@ app.post('/agent', function(req, res){
 	  }
 	});
 });
-
-// update agent
-app.post('/agent/update/:id', function(req, res){
-
-	//curl -d "first_name=Monicaa&last_name=livinskyys" -X POST http://localhost:3001/agent/update/5bda4ff0ffbefe0f7dcc0e3b
-
-	db.agent.update({
-	  "_id": mongojs.ObjectID(req.params.id)
-	}, {fname: req.body.first_name, lname: req.body.last_name} function(error, removed) {
-	  if (error) {
-	    res.send(error);
-	  }else {
-	    res.json(req.params.id);
-	  }
-	});
-})
 
 app.listen(PORT, function() {
   console.log('🌎 ==> Now listening on PORT %s! Visit http://localhost:%s in your browser!', PORT, PORT);
