@@ -81,7 +81,8 @@ app.get('/agent/:id', function(req, res){
 */
 // remove an agent
 app.post('/agent/:id', function(req, res){
-	//curl -X POST http://localhost:3001/pets/5bb2de27c385cb3290b0e598
+	
+	//testing on terminal: curl -X POST http://localhost:3001/agent/5bdb4e686ef8511302599f65
 
 	db.agent.remove({
 	  "_id": mongojs.ObjectID(req.params.id)
@@ -99,7 +100,7 @@ app.post('/agent', function(req, res){
 	
 	// req.body may look like this: {name: 'fido', age: 3} 
 
-	//curl -d "name=fido&age=3" -X POST http://localhost:3001/pets
+	//testing on termonal: curl -d "first_name=Henry&last_name=Loyd" -X POST http://localhost:3001/agent
 
 	db.agent.insert(req.body, function(error, savedAgent) {
 	  // Log any errors
@@ -131,7 +132,7 @@ app.post('/agent', function(req, res){
 
 //this way should return agent document:
 app.post('/agent/update/:id', function(req, res) {
-    //curl -X POST http://localhost:3001/agent/5bda4ff0ffbefe0f7dcc0e3b
+    //curl -d "first_name=henryy&last_name=shmidtt" -X POST http://localhost:3001/agent/update/5bdb60a8fb9c2b1447455d9d
 
     db.agent.findAndModify({
         query: {
