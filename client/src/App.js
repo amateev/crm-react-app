@@ -3,6 +3,8 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Container from "./components/Container";
 import './App.css';
+import { _loadAgent, _deleteAgent, _createAgent, _updateAgent } from './services/AgentService';
+
 
 class App extends Component {
   constructor() {
@@ -47,14 +49,7 @@ class App extends Component {
     let first_name = event.target.children[0].value;
     let last_name = event.target.children[1].value;
 
-    return fetch("http://localhost:3001/agent", {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({first_name, last_name})
-      }).then(res => res.json()).then(rj => {
+    return _createAgent(first_name, last_name).then(rj => {
         let agent = [...this.state.agent, rj];
         this.setState({agent});
         document.getElementById("addForm").reset();
@@ -113,8 +108,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    return fetch("http://localhost:3001/agent")
-    .then((res) => res.json())
+    return _loadAgent()
       .then(resultingJSON => this.setState({agent : resultingJSON}))
   }
 
