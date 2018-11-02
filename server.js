@@ -132,7 +132,7 @@ app.post('/agent', function(req, res){
 
 //this way should return agent document:
 app.post('/agent/update/:id', function(req, res) {
-    //curl -d "first_name=henryy&last_name=shmidtt" -X POST http://localhost:3001/agent/update/5bdb60a8fb9c2b1447455d9d
+    //working//curl -d "first_name=Henryy&last_name=Shmidtt" -X POST http://localhost:3001/agent/update/5bdb60a8fb9c2b1447455d9d
 
     db.agent.findAndModify({
         query: {

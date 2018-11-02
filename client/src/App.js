@@ -67,16 +67,16 @@ class App extends Component {
     // setting up the state:
     let edit = true;
     let edit_id = event.target.getAttribute('data-id');
-    let fname = event.target.getAttribute('data-fname');
-    let lname = event.target.getAttribute('data-lname');
+    let first_name = event.target.getAttribute('data-fname');
+    let last_name = event.target.getAttribute('data-lname');
 
     // we need time for the form to show up, so we use 
     // callback function that runs after the state is updated
     this.setState({edit, edit_id}, function(){
       let editForm = document.querySelector('#editForm');
-      
-      editForm.children[0].value = fname;
-      editForm.children[1].value = lname;
+   
+      editForm.children[0].value = first_name;
+      editForm.children[1].value = last_name;
       
     });
   }
@@ -85,6 +85,28 @@ class App extends Component {
   hideEditAgent = (event) => {
     event.preventDefault();
     this.setState({edit:false})
+  }
+
+ updateAgent = (event) => {
+    event.preventDefault();
+
+    let first_name = event.target.children[0].value
+    let last_name = event.target.children[1].value
+
+    return fetch(`http://localhost:3001/agent/update/${this.state.edit_id}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({first_name, last_name})
+      }).then(res => res.json()).then(rj => {
+        let agent = this.state.agent.map(b => {
+         if (b._id != this.state.edit_id) return b;
+         else return rj;
+        })
+        this.setState({agent});
+      })
   }
 
   componentDidMount() {
@@ -119,7 +141,7 @@ class App extends Component {
             <input type="text" name="fname" placeholder="put in your name" />
             <input type="text" name="lname" placeholder="put in your last name" />
 
-            <button>update an agent</button>
+            <button >update an agent</button>
             <button onClick={this.hideEditAgent} >hide edit form</button>
           </form>}
 
