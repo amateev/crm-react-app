@@ -35,7 +35,7 @@ class App extends Component {
 
             let agent = this.state.agent.filter(agent => agent.id !== deletedAgentId)
 
-            this.setState({agent})
+            this.setState({agent});
           })
 
    
@@ -56,7 +56,8 @@ class App extends Component {
         body: JSON.stringify({first_name, last_name})
       }).then(res => res.json()).then(rj => {
         let agent = [...this.state.agent, rj];
-        this.setState({agent})
+        this.setState({agent});
+        document.getElementById("addForm").reset();
       })
   }
 
@@ -106,7 +107,9 @@ class App extends Component {
          else return rj;
         })
         this.setState({agent});
+        document.getElementById("editForm").reset();
       })
+
   }
 
   componentDidMount() {
@@ -130,7 +133,7 @@ class App extends Component {
         <div className="App-header">
           
 
-          <form onSubmit={this.createAgent}>
+          <form id="addForm" onSubmit={this.createAgent}>
             <input type="text" name="fname" placeholder="put in your name" />
             <input type="text" name="lname" placeholder="put in your last name" />
 
